@@ -1,0 +1,674 @@
+<!-- =============================================================
+     ROBOT FRIENDS — LANDING PAGE (WordPress.com Premium ready)
+     -------------------------------------------------------------
+     Paste this ENTIRE file into a WordPress Custom HTML block
+     on a page where template = Elementor Canvas (no header/footer).
+
+     Differences from the original landing.html:
+       1. <head> meta/favicon tags removed — WP handles those.
+       2. File paths swapped to WP.com Media Library URLs.
+       3. CTA button now links to "#waitlist" anchor instead of
+          a Google Form (the waitlist form will be added below
+          this block in Phase 6 with id="waitlist").
+     ============================================================= -->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+
+<style>
+  /* ============================================================
+     BRAND TOKENS — sampled from the Robot Friends logo
+     ============================================================ */
+  :root {
+    --bg-deep:     #0B0B1A;
+    --bg-panel:    #12122A;
+    --ink:         #F4F4FB;
+    --ink-mute:    #B7B9D6;
+    --ink-faint:   #6E7299;
+
+    --cyan:        #4DC9FF;
+    --magenta:     #FF3FA4;
+    --purple:      #7B2FF7;
+    --sunset:      #FF7E5C;
+    --whatsapp:    #25D366;
+
+    --gradient-hero:
+      radial-gradient(120% 80% at 75% 20%, rgba(123, 47, 247, 0.55) 0%, transparent 55%),
+      radial-gradient(80% 60% at 15% 80%, rgba(255, 63, 164, 0.45) 0%, transparent 60%),
+      radial-gradient(60% 40% at 50% 100%, rgba(255, 126, 92, 0.35) 0%, transparent 70%),
+      linear-gradient(180deg, #0B0B1A 0%, #14102E 60%, #1A0E2E 100%);
+
+    --gradient-text:
+      linear-gradient(90deg, var(--cyan) 0%, var(--purple) 50%, var(--magenta) 100%);
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; min-height: 100%; }
+  body {
+    background: var(--bg-deep);
+    color: var(--ink);
+    font-family: 'Inter', system-ui, -apple-system, Segoe UI, sans-serif;
+    font-size: 17px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  h1, h2, h3 {
+    font-family: 'Space Grotesk', 'Inter', sans-serif;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    margin: 0;
+  }
+  a { color: var(--cyan); text-decoration: none; }
+
+  .container { width: min(1100px, 92%); margin: 0 auto; }
+
+  /* ============================================================
+     LANDING PAGE LAYOUT
+     ============================================================ */
+  .landing {
+    min-height: 100vh;
+    background: var(--gradient-hero);
+    position: relative;
+    overflow: hidden;
+    display: flex; flex-direction: column;
+    padding: 40px 0 60px;
+  }
+  /* twinkling stars */
+  .landing::before {
+    content: ""; position: absolute; inset: 0;
+    background:
+      radial-gradient(2px 2px at 20% 30%, rgba(255,255,255,0.7), transparent 60%),
+      radial-gradient(1.5px 1.5px at 60% 15%, rgba(255,255,255,0.5), transparent 60%),
+      radial-gradient(1.5px 1.5px at 85% 40%, rgba(255,255,255,0.6), transparent 60%),
+      radial-gradient(1px 1px at 35% 70%, rgba(255,255,255,0.4), transparent 60%),
+      radial-gradient(1px 1px at 75% 75%, rgba(255,255,255,0.5), transparent 60%),
+      radial-gradient(1.5px 1.5px at 10% 60%, rgba(255,255,255,0.4), transparent 60%),
+      radial-gradient(1px 1px at 90% 80%, rgba(255,255,255,0.5), transparent 60%);
+    pointer-events: none;
+  }
+
+  /* slow drifting glow blobs */
+  .landing::after {
+    content: ""; position: absolute;
+    width: 520px; height: 520px; left: -180px; top: 30%;
+    background: radial-gradient(closest-side, rgba(123, 47, 247, 0.4), transparent);
+    border-radius: 50%;
+    filter: blur(50px);
+    animation: drift 18s ease-in-out infinite alternate;
+    pointer-events: none;
+  }
+  @keyframes drift {
+    from { transform: translate(0, 0); }
+    to   { transform: translate(220px, -140px); }
+  }
+
+  .landing-inner {
+    position: relative; z-index: 1;
+    flex: 1;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    text-align: center;
+    padding: 40px 0;
+  }
+
+  /* ---------- LOGO ---------- */
+  .logo-wrap {
+    margin-bottom: 36px;
+    animation: float 5s ease-in-out infinite;
+  }
+  .logo-wrap img {
+    width: 180px; height: 180px;
+    border-radius: 22px;
+    box-shadow:
+      0 20px 60px rgba(123, 47, 247, 0.5),
+      0 0 80px rgba(255, 63, 164, 0.3);
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(-12px); }
+  }
+
+  /* ---------- COMING SOON BADGE ---------- */
+  .badge {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: rgba(77, 201, 255, 0.1);
+    border: 1px solid rgba(77, 201, 255, 0.45);
+    color: var(--cyan);
+    padding: 10px 22px;
+    border-radius: 999px;
+    font-size: 12px; font-weight: 600;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    margin-bottom: 30px;
+    max-width: 92%;
+    text-align: center;
+  }
+  @media (max-width: 520px) {
+    .badge { font-size: 11px; letter-spacing: 0.14em; padding: 9px 16px; }
+  }
+  .badge .pulse {
+    width: 10px; height: 10px;
+    background: var(--magenta);
+    border-radius: 50%;
+    box-shadow: 0 0 0 0 var(--magenta);
+    animation: pulse 1.8s infinite;
+  }
+  @keyframes pulse {
+    0%   { box-shadow: 0 0 0 0 rgba(255,63,164,0.7); }
+    70%  { box-shadow: 0 0 0 14px rgba(255,63,164,0); }
+    100% { box-shadow: 0 0 0 0 rgba(255,63,164,0); }
+  }
+
+  /* ---------- HEADLINE (search-intent matched) ---------- */
+  .landing-headline {
+    font-size: clamp(38px, 6.2vw, 76px);
+    line-height: 1.04;
+    margin-bottom: 18px;
+    max-width: 22ch;
+  }
+  .landing-headline .grad {
+    background: var(--gradient-text);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+
+  /* ---------- TAGLINE (brand poetry, secondary to H1) ---------- */
+  .landing-tagline {
+    font-family: 'Space Grotesk', 'Inter', sans-serif;
+    font-size: clamp(18px, 2vw, 24px);
+    font-weight: 600;
+    line-height: 1.3;
+    margin: 0 auto 22px;
+    background: var(--gradient-text);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+    letter-spacing: -0.01em;
+  }
+
+  /* ---------- SUBHEAD ---------- */
+  .landing-sub {
+    font-size: clamp(16px, 1.5vw, 19px);
+    color: var(--ink-mute);
+    max-width: 620px;
+    margin: 0 auto 22px;
+    line-height: 1.55;
+  }
+
+  /* ---------- LOCATOR STRIP ---------- */
+  .locator {
+    font-size: 13px; letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--ink-mute); font-weight: 600;
+    margin-bottom: 14px;
+    max-width: 820px;
+  }
+  .locator .dot { color: var(--magenta); margin: 0 4px; }
+  .locator .more { color: var(--ink-faint); font-style: italic; letter-spacing: 0.18em; }
+
+  /* ---------- SERVICE NOTE (travel framing + SoCal mention) ---------- */
+  .service-note {
+    font-size: 12.5px;
+    color: var(--ink-mute);
+    font-weight: 500;
+    letter-spacing: 0.03em;
+    line-height: 1.55;
+    max-width: 720px;
+    margin: 0 auto 50px;
+  }
+  .service-note .free {
+    color: var(--cyan);
+    font-weight: 700;
+    letter-spacing: 0.06em;
+  }
+  .service-note .sep {
+    color: var(--magenta);
+    margin: 0 8px;
+  }
+
+  /* ---------- ROBOT VIDEO STAGE ---------- */
+  .robot-stage {
+    width: min(640px, 90%);
+    aspect-ratio: 16/10;
+    border-radius: 28px;
+    background:
+      radial-gradient(80% 60% at 50% 30%, rgba(255, 63, 164, 0.35), transparent 65%),
+      radial-gradient(80% 60% at 50% 80%, rgba(123, 47, 247, 0.45), transparent 65%),
+      linear-gradient(180deg, #1B1140 0%, #0E0C24 100%);
+    border: 1px solid rgba(255,255,255,0.08);
+    box-shadow:
+      0 30px 80px rgba(0,0,0,0.5),
+      0 0 60px rgba(123, 47, 247, 0.2);
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 50px;
+  }
+  /* the autoplaying hero video */
+  .robot-stage video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+    display: block;
+  }
+  /* desert horizon at bottom of stage */
+  .robot-stage .horizon {
+    position: absolute; left: 0; right: 0; bottom: 0; height: 35%;
+    background:
+      linear-gradient(180deg, transparent 0%, rgba(11,11,26,0.55) 70%, rgba(11,11,26,0.85) 100%);
+    z-index: 1;
+    pointer-events: none;
+  }
+  .robot-stage .palms {
+    position: absolute; left: 0; right: 0; bottom: 8px;
+    text-align: center;
+    font-size: 38px; line-height: 1; letter-spacing: -2px;
+    color: rgba(0,0,0,0.85);
+    z-index: 2;
+    pointer-events: none;
+  }
+  /* mute / unmute toggle button */
+  .sound-toggle {
+    position: absolute;
+    top: 14px; right: 14px;
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    background: rgba(11, 11, 26, 0.55);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    z-index: 5;
+    transition: transform .15s ease, background .15s ease, border-color .15s ease;
+    padding: 0;
+  }
+  .sound-toggle:hover {
+    transform: scale(1.08);
+    background: rgba(123, 47, 247, 0.55);
+    border-color: rgba(255, 255, 255, 0.5);
+  }
+  .sound-toggle svg {
+    width: 20px; height: 20px;
+    fill: #fff;
+    pointer-events: none;
+  }
+  /* show/hide icons based on data-muted state */
+  .sound-toggle .icon-unmuted { display: none; }
+  .sound-toggle[data-muted="false"] .icon-muted   { display: none; }
+  .sound-toggle[data-muted="false"] .icon-unmuted { display: block; }
+  /* small "tap for sound" hint that fades out after first interaction */
+  .sound-hint {
+    position: absolute;
+    top: 16px; right: 68px;
+    background: rgba(11, 11, 26, 0.7);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    color: var(--ink);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 8px 12px;
+    border-radius: 999px;
+    border: 1px solid rgba(255,255,255,0.15);
+    white-space: nowrap;
+    z-index: 4;
+    opacity: 0;
+    animation: hint-show 0.6s ease 1.2s forwards, hint-hide 0.6s ease 6s forwards;
+    pointer-events: none;
+  }
+  @keyframes hint-show { to { opacity: 1; } }
+  @keyframes hint-hide { to { opacity: 0; transform: translateX(8px); } }
+  .sound-toggle.interacted ~ .sound-hint,
+  .sound-hint.gone { display: none; }
+
+  /* ---------- CTA BUTTON ---------- */
+  .cta-btn {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 20px 38px;
+    border-radius: 999px;
+    font-weight: 700; font-size: 17px;
+    background: linear-gradient(90deg, var(--cyan), var(--purple) 55%, var(--magenta));
+    color: #fff !important;
+    box-shadow:
+      0 16px 44px rgba(123, 47, 247, 0.55),
+      0 0 0 0 rgba(255, 63, 164, 0.5);
+    transition: transform .2s ease, box-shadow .25s ease;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    border: none;
+    text-decoration: none;
+  }
+  .cta-btn:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow:
+      0 22px 60px rgba(255, 63, 164, 0.7),
+      0 0 0 6px rgba(255, 63, 164, 0.18);
+  }
+  .cta-btn::after {
+    content: "";
+    position: absolute; inset: -2px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, var(--cyan), var(--magenta));
+    z-index: -1;
+    filter: blur(18px);
+    opacity: 0.5;
+  }
+  .cta-note {
+    color: var(--ink-faint);
+    font-size: 13px;
+    margin-top: 14px;
+    letter-spacing: 0.04em;
+  }
+
+  /* ---------- TEASER (mini crew preview) ---------- */
+  .teaser {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
+    margin-top: 70px;
+    width: min(900px, 92%);
+  }
+  @media (max-width: 700px) { .teaser { grid-template-columns: 1fr; } }
+  .teaser-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 18px;
+    padding: 24px 22px;
+    text-align: left;
+    backdrop-filter: blur(8px);
+  }
+  .teaser-card .name {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 22px; font-weight: 700;
+  }
+  .teaser-card .tag {
+    color: var(--magenta); font-size: 11px; letter-spacing: 0.18em;
+    text-transform: uppercase; font-weight: 600; margin-bottom: 10px;
+  }
+  .teaser-card p {
+    color: var(--ink-mute); font-size: 14px; line-height: 1.55; margin: 0;
+  }
+  .teaser-card .name.cyan    { color: var(--cyan); }
+  .teaser-card .name.magenta { color: var(--magenta); }
+  .teaser-card .name.sunset  { color: var(--sunset); }
+
+  /* ---------- FOOTER (minimal) ---------- */
+  .mini-footer {
+    text-align: center;
+    padding: 40px 20px 24px;
+    color: var(--ink-faint);
+    font-size: 13px;
+    line-height: 1.7;
+    border-top: 1px solid rgba(255,255,255,0.05);
+    background: #07071A;
+    position: relative; z-index: 2;
+  }
+  .mini-footer .links a {
+    color: var(--ink-mute);
+    margin: 0 10px;
+    font-size: 13px;
+  }
+  .mini-footer .copyright { margin-top: 10px; color: var(--ink-faint); }
+
+  /* ---------- SOCIAL ICONS ROW (brand-colored) ---------- */
+  .social-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 14px;
+    margin-top: 18px;
+    margin-bottom: 6px;
+    flex-wrap: wrap;
+  }
+  .social-row a {
+    display: inline-flex;
+    align-items: center; justify-content: center;
+    width: 38px; height: 38px;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.08);
+    transition: transform .18s ease, box-shadow .2s ease, filter .2s ease;
+  }
+  .social-row a:hover {
+    transform: translateY(-3px) scale(1.06);
+    box-shadow: 0 8px 22px rgba(0,0,0,0.45);
+    filter: brightness(1.1);
+  }
+  .social-row svg {
+    width: 16px; height: 16px;
+    fill: #fff;
+  }
+  /* Brand-color backgrounds */
+  .social-instagram {
+    background: linear-gradient(45deg,
+      #F09433 0%, #E6683C 25%, #DC2743 50%, #CC2366 75%, #BC1888 100%);
+  }
+  .social-tiktok {
+    background: #000;
+    box-shadow: inset 0 0 0 1px rgba(37, 244, 238, 0.2);
+  }
+  .social-youtube { background: #FF0000; }
+  .social-facebook { background: #1877F2; }
+  .social-x { background: #000; }
+
+  /* ---------- WHATSAPP BUTTON ---------- */
+  .whatsapp-btn {
+    position: fixed; bottom: 24px; left: 24px;
+    width: 60px; height: 60px;
+    background: var(--whatsapp);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 8px 28px rgba(37, 211, 102, 0.4);
+    z-index: 100;
+    transition: transform .2s ease;
+  }
+  .whatsapp-btn:hover { transform: scale(1.08); }
+  .whatsapp-btn svg { width: 32px; height: 32px; fill: #fff; }
+  @media (max-width: 600px) {
+    .whatsapp-btn { width: 50px; height: 50px; bottom: 18px; left: 18px; }
+    .whatsapp-btn svg { width: 26px; height: 26px; }
+  }
+</style>
+
+<section class="landing">
+  <div class="container landing-inner">
+
+    <!-- Logo, big and floating -->
+    <div class="logo-wrap">
+      <img src="https://sorphoanear-leksf.wpcomstaging.com/wp-content/uploads/2026/05/Logo.png" alt="Robot Friends logo" />
+    </div>
+
+    <!-- Coming Soon + location badge -->
+    <div class="badge">
+      <span class="pulse"></span>
+      Coming Soon · Palm Springs &amp; Coachella Valley
+    </div>
+
+    <!-- Search-intent matched H1: this is what people search for -->
+    <h1 class="landing-headline">
+      Humanoid Robot Rental <br>
+      in <span class="grad">Palm Springs &amp; Coachella Valley</span>
+    </h1>
+
+    <!-- Brand tagline beneath the H1 -->
+    <div class="landing-tagline">
+      Real robots, warm welcomes.
+    </div>
+
+    <!-- Subhead — concrete use cases, no location repeat -->
+    <p class="landing-sub">
+      Real working humanoid robots and a robot dog for weddings, conferences, brand activations, and school events.
+    </p>
+
+    <!-- Locator — full Coachella Valley city list with catchall -->
+    <div class="locator">
+      Palm Springs <span class="dot">·</span>
+      Cathedral City <span class="dot">·</span>
+      Rancho Mirage <span class="dot">·</span>
+      Palm Desert <span class="dot">·</span>
+      Indian Wells <span class="dot">·</span>
+      La Quinta <span class="dot">·</span>
+      Indio <span class="dot">·</span>
+      Desert Hot Springs <span class="dot">·</span>
+      Bermuda Dunes
+      <span class="more">&amp; surrounding desert communities</span>
+    </div>
+
+    <!-- Service note: free travel locally + SoCal coverage -->
+    <div class="service-note">
+      <span class="free">FREE TRAVEL</span> across the Coachella Valley
+      <span class="sep">·</span>
+      Also serving Los Angeles, Orange County, San Diego &amp; the Inland Empire with travel fees applied
+    </div>
+
+    <!-- Hero robot video — autoplay + loop + muted (required for autoplay on mobile) -->
+    <!-- The sound toggle lets viewers tap to unmute. -->
+    <div class="robot-stage" aria-label="Robot Friends hero video">
+      <video
+        id="hero-video"
+        autoplay
+        loop
+        muted
+        playsinline
+        preload="auto"
+        poster="https://sorphoanear-leksf.wpcomstaging.com/wp-content/uploads/2026/05/robot-poster.jpg"
+        aria-label="Humanoid robot greeting at a Palm Springs event">
+        <source src="https://sorphoanear-leksf.wpcomstaging.com/wp-content/uploads/2026/05/robot-demo.mp4" type="video/mp4">
+        <source src="https://sorphoanear-leksf.wpcomstaging.com/wp-content/uploads/2026/05/robot-demo.webm" type="video/webm">
+        Your browser does not support the video tag.
+      </video>
+      <button
+        class="sound-toggle"
+        id="sound-toggle"
+        type="button"
+        data-muted="true"
+        aria-label="Unmute video"
+        title="Tap for sound">
+        <!-- muted speaker (shown by default) -->
+        <svg class="icon-muted" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M3 10v4h4l5 5V5L7 10H3zm13.59 2L19 9.41 17.59 8 15 10.59 12.41 8 11 9.41 13.59 12 11 14.59 12.41 16 15 13.41 17.59 16 19 14.59 16.59 12z"/>
+        </svg>
+        <!-- unmuted speaker with waves -->
+        <svg class="icon-unmuted" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M3 10v4h4l5 5V5L7 10H3zm13.5 2c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+        </svg>
+      </button>
+      <div class="sound-hint" id="sound-hint">Tap for sound</div>
+      <div class="horizon"></div>
+      <div class="palms">🌴 &nbsp; 🌴 &nbsp; 🌴 &nbsp; 🌴</div>
+    </div>
+
+    <script>
+      (function () {
+        var video = document.getElementById('hero-video');
+        var btn   = document.getElementById('sound-toggle');
+        var hint  = document.getElementById('sound-hint');
+        if (!video || !btn) return;
+
+        btn.addEventListener('click', function () {
+          video.muted = !video.muted;
+          var nowMuted = video.muted;
+          btn.setAttribute('data-muted', nowMuted ? 'true' : 'false');
+          btn.setAttribute('aria-label', nowMuted ? 'Unmute video' : 'Mute video');
+          btn.setAttribute('title', nowMuted ? 'Tap for sound' : 'Mute');
+          if (hint) hint.classList.add('gone');
+          // some browsers pause when toggling — make sure it keeps playing
+          if (video.paused) { video.play().catch(function(){}); }
+        });
+      })();
+    </script>
+
+    <!-- CTA: scroll to waitlist form (form will be added in Phase 6 below) -->
+    <a class="cta-btn" href="#waitlist">
+      Join our waitlist for exclusive launch pricing →
+    </a>
+    <div class="cta-note">Custom quote within 24 hours · Priority booking when we launch · No obligation</div>
+
+    <!-- Mini crew teaser -->
+    <div class="teaser">
+      <div class="teaser-card">
+        <div class="tag">The Charmer</div>
+        <div class="name cyan">Max</div>
+        <p>Humanoid greeter. Walks in, finds the camera-shy person, gets them to high-five anyway.</p>
+      </div>
+      <div class="teaser-card">
+        <div class="tag">The Performer</div>
+        <div class="name magenta">Charlie</div>
+        <p>Choreographed routines, brand reveals, the moment the room loses its mind for a second.</p>
+      </div>
+      <div class="teaser-card">
+        <div class="tag">The Scene-Stealer</div>
+        <div class="name sunset">Milo</div>
+        <p>Robot dog. Sits, jumps, runs at 8 mph. Kids head straight for him at school events.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- =============================================================
+     FORM PLACEHOLDER — Phase 6 will add the Fluent Forms shortcode
+     (or a Jetpack Form block) here, wrapped in a section with
+     id="waitlist" so the CTA above scrolls to it.
+
+     The form spec (locked in 2026-05-02):
+       Required: Name, Email, City/Area, Event Type (dropdown:
+         Birthday/Party, Corporate, Wedding, Conference,
+         School/Education, Other)
+       Optional: Company Name, "Anything you'd like us to know?"
+       Submissions emailed to hello@robotfriends.us
+     ============================================================= -->
+
+<!-- Minimal footer -->
+<footer class="mini-footer">
+  <div class="container">
+    <div class="links">
+      <a href="mailto:hello@robotfriends.us">hello@robotfriends.us</a>
+      <span style="color:var(--ink-faint)">·</span>
+      <a href="tel:+12028180171">+1 (202) 818-0171</a>
+      <span style="color:var(--ink-faint)">·</span>
+      <a href="https://wa.me/12028180171" target="_blank" rel="noopener">WhatsApp</a>
+    </div>
+
+    <!-- Social handles — all @robotfriendsus -->
+    <div class="social-row" aria-label="Robot Friends on social media">
+      <a class="social-instagram" href="https://www.instagram.com/robotfriends.us/" target="_blank" rel="noopener" aria-label="Robot Friends on Instagram" title="Instagram @robotfriends.us">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+        </svg>
+      </a>
+      <a class="social-tiktok" href="https://www.tiktok.com/@robotfriendsus" target="_blank" rel="noopener" aria-label="Robot Friends on TikTok" title="TikTok @robotfriendsus">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5.8 20.1a6.34 6.34 0 0 0 10.86-4.43V8.49a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1.84-.92z"/>
+        </svg>
+      </a>
+      <a class="social-youtube" href="https://www.youtube.com/@robotfriendsus" target="_blank" rel="noopener" aria-label="Robot Friends on YouTube" title="YouTube @robotfriendsus">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+        </svg>
+      </a>
+      <a class="social-facebook" href="https://www.facebook.com/robotfriendsus" target="_blank" rel="noopener" aria-label="Robot Friends on Facebook" title="Facebook @robotfriendsus">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+        </svg>
+      </a>
+      <a class="social-x" href="https://x.com/robotfriendsus" target="_blank" rel="noopener" aria-label="Robot Friends on X" title="X @robotfriendsus">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+        </svg>
+      </a>
+    </div>
+
+    <div class="copyright">© 2026 Robot Friends · Humanoid robot rental in Palm Springs &amp; the Coachella Valley · Cathedral City, CA</div>
+  </div>
+</footer>
+
+<!-- WhatsApp floating button -->
+<a class="whatsapp-btn"
+   href="https://wa.me/12028180171?text=Hi%20Robot%20Friends%2C%20I%27d%20like%20to%20know%20when%20you%20launch"
+   target="_blank" rel="noopener"
+   aria-label="Chat with Robot Friends on WhatsApp"
+   title="Chat with us on WhatsApp">
+  <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+    <path d="M19.11 17.205c-.372 0-1.088 1.39-1.518 1.39a.63.63 0 0 1-.315-.1c-.802-.402-1.504-.817-2.163-1.447-.545-.516-1.146-1.29-1.46-1.963a.426.426 0 0 1-.073-.215c0-.33.99-.945.99-1.49 0-.143-.73-2.09-.832-2.335-.143-.372-.214-.487-.6-.487-.187 0-.36-.043-.53-.043-.302 0-.53.115-.746.315-.688.645-1.032 1.318-1.06 2.264v.114c-.015.99.472 1.977 1.017 2.78 1.23 1.82 2.506 3.41 4.554 4.34.616.287 2.035.888 2.722.888.817 0 2.15-.515 2.49-1.318.214-.5.214-.93.143-1.02-.057-.144-.272-.215-.487-.330zM16.001 0C7.236 0 .136 7.1.136 15.866c0 3.022.85 5.984 2.45 8.55L.025 32l7.74-2.524a15.93 15.93 0 0 0 8.236 2.276c8.766 0 15.866-7.1 15.866-15.866C31.867 7.1 24.767 0 16.001 0zm0 28.952a13.043 13.043 0 0 1-7.246-2.193l-.515-.33-5.382 1.72 1.748-5.252-.343-.544A13.069 13.069 0 0 1 2.95 15.866c0-7.224 5.84-13.064 13.05-13.064 7.225 0 13.065 5.84 13.065 13.064 0 7.224-5.84 13.086-13.064 13.086z"/>
+  </svg>
+</a>
