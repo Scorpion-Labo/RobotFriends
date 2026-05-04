@@ -1,0 +1,368 @@
+<!-- =============================================================
+     ROBOT FRIENDS — WAITLIST PAGE (header + form styles) v6
+     -------------------------------------------------------------
+     v6 design pivot:
+       - Going back to v3 base (subtle focus state, no overengineered
+         contrast tricks).
+       - All form fields now use a UNIFORM LIGHT background with
+         dark text — matching the look the Name field had after
+         Chrome autofill.
+       - Removed the dark-background autofill override since we're
+         now embracing the light look. Autofilled and manually
+         typed fields look identical now.
+       - Select dropdown, text inputs, and textarea all share the
+         same background, border, and text color.
+
+     Aesthetic: dark gradient page + form container, with light
+     fields punching through for high readability.
+
+     This file goes into a single Custom HTML widget on the
+     /waitlist page (template = Elementor Canvas).
+
+     Below this HTML widget: a SHORTCODE widget with the Jetpack
+     contact-form shortcode.
+     ============================================================= -->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --bg-deep:     #0B0B1A;
+    --bg-panel:    #12122A;
+    --ink:         #F4F4FB;
+    --ink-mute:    #B7B9D6;
+    --ink-faint:   #6E7299;
+    --cyan:        #4DC9FF;
+    --magenta:     #FF3FA4;
+    --purple:      #7B2FF7;
+    --sunset:      #FF7E5C;
+    --whatsapp:    #25D366;
+
+    --field-bg:    #ECECF7;   /* light background, like autofill */
+    --field-text:  #1A1A2E;   /* dark text on light field */
+    --field-border:rgba(0,0,0,0.08);
+
+    --gradient-page:
+      radial-gradient(80% 60% at 75% 0%, rgba(123, 47, 247, 0.45) 0%, transparent 55%),
+      radial-gradient(60% 50% at 15% 100%, rgba(255, 63, 164, 0.35) 0%, transparent 60%),
+      linear-gradient(180deg, #0B0B1A 0%, #14102E 70%, #1A0E2E 100%);
+
+    --gradient-text:
+      linear-gradient(90deg, var(--cyan) 0%, var(--purple) 50%, var(--magenta) 100%);
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; min-height: 100%; }
+  body {
+    background: var(--bg-deep);
+    color: var(--ink);
+    font-family: 'Inter', system-ui, -apple-system, Segoe UI, sans-serif;
+    font-size: 17px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  h1, h2, h3 {
+    font-family: 'Space Grotesk', 'Inter', sans-serif;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    margin: 0;
+  }
+
+  .waitlist-page {
+    background: var(--gradient-page);
+    position: relative;
+    overflow: hidden;
+    padding: 30px 0 24px;
+  }
+  .waitlist-page::before {
+    content: ""; position: absolute; inset: 0;
+    background:
+      radial-gradient(2px 2px at 20% 30%, rgba(255,255,255,0.6), transparent 60%),
+      radial-gradient(1.5px 1.5px at 60% 15%, rgba(255,255,255,0.4), transparent 60%),
+      radial-gradient(1.5px 1.5px at 85% 40%, rgba(255,255,255,0.5), transparent 60%),
+      radial-gradient(1px 1px at 35% 70%, rgba(255,255,255,0.4), transparent 60%),
+      radial-gradient(1px 1px at 75% 75%, rgba(255,255,255,0.4), transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+  }
+  .waitlist-inner {
+    position: relative;
+    z-index: 1;
+    width: min(640px, 92%);
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--ink-mute);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 8px 14px;
+    border-radius: 999px;
+    border: 1px solid rgba(255,255,255,0.08);
+    background: rgba(255,255,255,0.02);
+    margin-bottom: 32px;
+    transition: border-color .2s ease, color .2s ease;
+  }
+  .back-link:hover {
+    border-color: rgba(77, 201, 255, 0.4);
+    color: var(--cyan);
+  }
+
+  .logo-wrap {
+    margin-bottom: 28px;
+  }
+  .logo-wrap img {
+    width: 96px; height: 96px;
+    border-radius: 18px;
+    box-shadow:
+      0 12px 36px rgba(123, 47, 247, 0.4),
+      0 0 50px rgba(255, 63, 164, 0.2);
+  }
+
+  .waitlist-heading {
+    font-size: clamp(34px, 5vw, 52px);
+    line-height: 1.06;
+    margin-bottom: 14px;
+  }
+  .waitlist-heading .grad {
+    background: var(--gradient-text);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+
+  .waitlist-sub {
+    font-size: clamp(15px, 1.5vw, 17px);
+    color: var(--ink-mute);
+    margin: 0 auto 24px;
+    line-height: 1.55;
+    max-width: 540px;
+  }
+  .waitlist-sub strong {
+    color: var(--ink);
+    font-weight: 600;
+  }
+
+  .benefits {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    flex-wrap: wrap;
+    margin-bottom: 24px;
+  }
+  .benefit {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--ink-mute);
+    font-weight: 500;
+  }
+  .benefit::before {
+    content: "✓";
+    color: var(--cyan);
+    font-weight: 700;
+  }
+
+  /* ============================================================
+     JETPACK FORM — light field design (v6)
+     ============================================================ */
+  .contact-form,
+  .wp-block-jetpack-contact-form {
+    text-align: left;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 20px;
+    padding: 36px 32px;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    max-width: min(640px, 92%);
+    margin: 0 auto;
+  }
+
+  .contact-form label,
+  .wp-block-jetpack-contact-form label {
+    display: block;
+    color: var(--ink-mute);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  .contact-form .required,
+  .wp-block-jetpack-contact-form .required {
+    color: var(--magenta);
+  }
+
+  /* ============================================================
+     ALL TEXT FIELDS + SELECT + TEXTAREA — UNIFORM LIGHT BG
+     Broad selector catches every input type Jetpack might use.
+     ============================================================ */
+  .contact-form input:not([type="submit"]):not([type="hidden"]):not([type="checkbox"]):not([type="radio"]),
+  .contact-form select,
+  .contact-form textarea,
+  .wp-block-jetpack-contact-form input:not([type="submit"]):not([type="hidden"]):not([type="checkbox"]):not([type="radio"]),
+  .wp-block-jetpack-contact-form select,
+  .wp-block-jetpack-contact-form textarea {
+    width: 100% !important;
+    background-color: var(--field-bg) !important;
+    background-image: none !important;
+    border: 1px solid var(--field-border) !important;
+    border-radius: 12px !important;
+    color: var(--field-text) !important;
+    -webkit-text-fill-color: var(--field-text) !important;
+    font-family: 'Inter', sans-serif !important;
+    font-size: 16px !important;
+    padding: 14px 16px !important;
+    margin-bottom: 18px !important;
+    outline: none !important;
+    -webkit-tap-highlight-color: transparent !important;
+    transition: border-color .2s ease, box-shadow .2s ease;
+  }
+
+  /* Select-specific overrides — atomic shorthand for arrow + bg */
+  .contact-form select,
+  .wp-block-jetpack-contact-form select {
+    background:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%231A1A2E' d='M6 8L0 0h12z'/%3E%3C/svg%3E")
+      right 16px center / 12px 8px no-repeat
+      var(--field-bg) !important;
+    padding-right: 40px !important;
+    appearance: none !important;
+    -webkit-appearance: none !important;
+    -moz-appearance: none !important;
+    cursor: pointer !important;
+  }
+
+  .contact-form select option,
+  .wp-block-jetpack-contact-form select option {
+    background-color: var(--field-bg) !important;
+    color: var(--field-text) !important;
+    padding: 10px !important;
+  }
+
+  .contact-form textarea,
+  .wp-block-jetpack-contact-form textarea {
+    min-height: 90px !important;
+    resize: vertical !important;
+  }
+
+  /* Subtle focus state — matches v5 spec */
+  .contact-form input:focus,
+  .contact-form select:focus,
+  .contact-form textarea:focus,
+  .wp-block-jetpack-contact-form input:focus,
+  .wp-block-jetpack-contact-form select:focus,
+  .wp-block-jetpack-contact-form textarea:focus {
+    outline: none !important;
+    border-color: rgba(77, 201, 255, 0.6) !important;
+    box-shadow: 0 0 0 2px rgba(77, 201, 255, 0.15) !important;
+  }
+
+  /* Autofill — match the light field bg explicitly so Chrome's
+     yellow tint doesn't replace our color */
+  .contact-form input:-webkit-autofill,
+  .contact-form input:-webkit-autofill:hover,
+  .contact-form input:-webkit-autofill:focus,
+  .contact-form textarea:-webkit-autofill,
+  .wp-block-jetpack-contact-form input:-webkit-autofill,
+  .wp-block-jetpack-contact-form input:-webkit-autofill:hover,
+  .wp-block-jetpack-contact-form input:-webkit-autofill:focus,
+  .wp-block-jetpack-contact-form textarea:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 1000px var(--field-bg) inset !important;
+    -webkit-text-fill-color: var(--field-text) !important;
+    caret-color: var(--field-text);
+    border: 1px solid var(--field-border) !important;
+    transition: background-color 5000s ease-in-out 0s;
+  }
+
+  /* Placeholder text */
+  .contact-form input::placeholder,
+  .contact-form textarea::placeholder,
+  .wp-block-jetpack-contact-form input::placeholder,
+  .wp-block-jetpack-contact-form textarea::placeholder {
+    color: rgba(26, 26, 46, 0.5) !important;
+    opacity: 1;
+  }
+
+  /* Submit button — gradient, unchanged */
+  .contact-form button[type="submit"],
+  .contact-form input[type="submit"],
+  .wp-block-jetpack-contact-form button[type="submit"],
+  .wp-block-jetpack-contact-form input[type="submit"] {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 18px 38px !important;
+    border-radius: 999px !important;
+    font-family: 'Inter', sans-serif !important;
+    font-weight: 700 !important;
+    font-size: 16px !important;
+    background: linear-gradient(90deg, var(--cyan), var(--purple) 55%, var(--magenta)) !important;
+    color: #fff !important;
+    -webkit-text-fill-color: #fff !important;
+    border: none !important;
+    cursor: pointer !important;
+    box-shadow: 0 14px 36px rgba(123, 47, 247, 0.45) !important;
+    transition: transform .2s ease, box-shadow .25s ease;
+    margin-top: 12px !important;
+    width: 100% !important;
+  }
+
+  .contact-form button[type="submit"]:hover,
+  .contact-form input[type="submit"]:hover,
+  .wp-block-jetpack-contact-form button[type="submit"]:hover,
+  .wp-block-jetpack-contact-form input[type="submit"]:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 18px 48px rgba(255, 63, 164, 0.55) !important;
+  }
+
+  .contact-form-success,
+  .grunion-confirmation {
+    background: rgba(77, 201, 255, 0.1);
+    border: 1px solid rgba(77, 201, 255, 0.3);
+    border-radius: 12px;
+    color: var(--cyan);
+    padding: 16px 20px;
+    text-align: center;
+    margin: 20px 0;
+  }
+</style>
+
+<section class="waitlist-page">
+  <div class="waitlist-inner">
+
+    <a class="back-link" href="/?page_id=18">← Back to home</a>
+
+    <div class="logo-wrap">
+      <img src="https://sorphoanear-leksf.wpcomstaging.com/wp-content/uploads/2026/05/Logo.png" alt="Robot Friends logo" />
+    </div>
+
+    <h1 class="waitlist-heading">
+      Join the <span class="grad">Waitlist</span>
+    </h1>
+
+    <p class="waitlist-sub">
+      We're launching this summer in Palm Springs &amp; the Coachella Valley.
+      Tell us about your event and we'll send a <strong>custom quote within 24 hours</strong> of launch.
+    </p>
+
+    <div class="benefits">
+      <span class="benefit">No obligation</span>
+      <span class="benefit">Priority booking</span>
+      <span class="benefit">Exclusive launch pricing</span>
+    </div>
+
+  </div>
+</section>
